@@ -372,6 +372,43 @@ textarea:focus-visible {
     500 18.7px/1.75 "DM Sans",
     sans-serif;
 }
+.question-course-reference {
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  margin: 0 0 20px;
+  padding-top: 10px;
+  border-top: 1px solid var(--app-line);
+}
+.question-course-reference-label {
+  color: var(--app-muted);
+  font: 500 9.9px/1.4 var(--mono);
+}
+.question-course-reference-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px;
+  max-width: 100%;
+  color: var(--app-green);
+  font-size: 12.1px;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.question-course-reference-link:hover {
+  text-decoration: underline;
+}
+.question-course-reference-link svg {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}
+.question-course-reference-unavailable {
+  color: var(--app-coral);
+  font: 500 10px/1.4 var(--mono);
+}
 .answer-fieldset {
   min-width: 0;
   margin: 0;

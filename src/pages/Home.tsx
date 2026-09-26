@@ -4,6 +4,7 @@ import {
   FiArrowLeft,
   FiArrowRight,
   FiBookmark,
+  FiBookOpen,
   FiCheck,
   FiInfo,
   FiX,
@@ -15,6 +16,7 @@ import ExamHeader from "../components/exam/ExamHeader";
 import QuestionNavigator from "../components/exam/QuestionNavigator";
 import { answerGuides } from "../data/answerGuides";
 import { examCategories, examQuestions } from "../data/examQuestions";
+import { getCourseSectionId } from "../lib/courseSectionId";
 import {
   goToQuestion,
   selectAnswer,
@@ -49,12 +51,22 @@ export default function Home() {
   }, [dispatch, paused, remainingSeconds]);
 
   const question = examQuestions[currentQuestion - 1];
+  const totalQuestions = examQuestions.length;
   const visibleQuestions = examQuestions.filter(
     (item) => category === "All domains" || item.category === category,
   );
-  const selectedAnswer = answers[currentQuestion];
-  const answeredCount = Object.keys(answers).length;
+  const selectedAnswers = answers[currentQuestion] ?? [];
+  const answeredCount = Object.entries(answers).filter(
+    ([number, selected]) => {
+      const item = examQuestions[Number(number) - 1];
+      return (
+        selected.length > 0 &&
+        (!item.multiple || selected.length === item.correct.length)
+      );
+    },
+  ).length;
   const isBookmarked = bookmarked.includes(currentQuestion);
+  const courseReferences = question.courseReference ?? "DO-NOT-RELY";
 
   function moveQuestion(number: number) {
     dispatch(goToQuestion(number));
@@ -116,7 +128,7 @@ export default function Home() {
             <div className="question-topline">
               <div className="question-number">
                 Question <strong>{currentQuestion}</strong>
-                <span>of 30</span>
+                <span>of {totalQuestions}</span>
               </div>
               <div className="question-tools">
                 <span className="category-tag">{question.tag}</span>
@@ -143,8 +155,32 @@ export default function Home() {
               <p>{question.prompt}</p>
             </div>
 
+            <div className="question-course-reference">
+              <span className="question-course-reference-label">
+                COURSE CONNECTION
+              </span>
+              {courseReferences === "DO-NOT-RELY" ? (
+                <span className="question-course-reference-unavailable">
+                  DO-NOT-RELY
+                </span>
+              ) : (
+                courseReferences.map((reference) => (
+                  <Link
+                    className="question-course-reference-link"
+                    key={`${reference.moduleId}-${reference.heading}`}
+                    to={`/courses/${reference.moduleId}#${getCourseSectionId(reference.moduleId, reference.heading)}`}
+                  >
+                    <FiBookOpen />
+                    Module {reference.moduleId}: {reference.heading}
+                  </Link>
+                ))
+              )}
+            </div>
+
             <fieldset className="answer-fieldset">
-              <legend>Select the best answer</legend>
+              <legend>
+                {question.multiple ? "Select two answers" : "Select the best answer"}
+              </legend>
               <div className="answer-list">
                 {question.answers.map(([letter, answer]) => {
                   const guide = answerGuides[answer];
@@ -154,7 +190,8 @@ export default function Home() {
                       letter={letter}
                       answer={answer}
                       questionNumber={currentQuestion}
-                      selected={selectedAnswer === letter}
+                      selected={selectedAnswers.includes(letter)}
+                      multiple={question.multiple}
                       definition={guide.definition}
                       example={guide.example}
                       onSelect={(selectedLetter) =>
@@ -162,6 +199,8 @@ export default function Home() {
                           selectAnswer({
                             question: currentQuestion,
                             answer: selectedLetter,
+                            multiple: question.multiple,
+                            maxAnswers: question.correct.length,
                           }),
                         )
                       }
@@ -204,13 +243,13 @@ export default function Home() {
                 Back
               </Button>
               <span className="answer-counter">
-                {answeredCount} of 30 answered
+                {answeredCount} of {totalQuestions} answered
               </span>
               <Button
                 variant="plain"
                 className="nav-button next-button"
                 onClick={() => moveQuestion(currentQuestion + 1)}
-                disabled={currentQuestion === 30}
+                disabled={currentQuestion === totalQuestions}
               >
                 Next question
                 <FiArrowRight />
@@ -225,6 +264,7 @@ export default function Home() {
               answers={answers}
               bookmarked={bookmarked}
               answeredCount={answeredCount}
+              totalQuestions={totalQuestions}
               onNavigate={moveQuestion}
             />
 
@@ -327,11 +367,11 @@ export default function Home() {
                 <h2 id="modal-title">Finish this test?</h2>
                 <p>
                   You have answered{" "}
-                  <strong>{answeredCount} of 30 questions</strong>. Unanswered
+                  <strong>{answeredCount} of {totalQuestions} questions</strong>. Unanswered
                   questions will be submitted as blank.
                 </p>
                 <div className="summary-progress">
-                  <span style={{ width: `${(answeredCount / 30) * 100}%` }} />
+                  <span style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
                 </div>
                 <div className="modal-actions">
                   <Button

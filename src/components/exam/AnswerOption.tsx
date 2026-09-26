@@ -6,6 +6,7 @@ type AnswerOptionProps = {
   answer: string;
   questionNumber: number;
   selected: boolean;
+  multiple?: boolean;
   definition: string;
   example: string;
   onSelect: (letter: string) => void;
@@ -16,6 +17,7 @@ export default function AnswerOption({
   answer,
   questionNumber,
   selected,
+  multiple = false,
   definition,
   example,
   onSelect,
@@ -32,7 +34,7 @@ export default function AnswerOption({
         title={`Definition: ${definition} Example: ${example}`}
       >
         <input
-          type="radio"
+          type={multiple ? "checkbox" : "radio"}
           name={`question-${questionNumber}`}
           value={letter}
           checked={selected}

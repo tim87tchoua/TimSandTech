@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import CourseHeader from "../components/courses/CourseHeader";
 import { courseModules } from "../data/courseModules";
+import { getCourseSectionId } from "../lib/courseSectionId";
 import {
   markModuleRead,
   toggleTheme,
@@ -24,12 +25,13 @@ import {
 
 export default function CourseModule() {
   const { moduleId } = useParams();
+  const location = useLocation();
   const module = courseModules.find((item) => item.id === Number(moduleId));
   const dispatch = useDispatch<AppDispatch>();
   const { darkMode, readModules } = useSelector(
     (state: RootState) => state.exam,
   );
-  const [isReading, setIsReading] = useState(false);
+  const [isReading, setIsReading] = useState(() => Boolean(location.hash));
   const [voiceStatus, setVoiceStatus] = useState<
     "idle" | "speaking" | "paused" | "unavailable"
   >("idle");
@@ -41,6 +43,18 @@ export default function CourseModule() {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
   }, [moduleId]);
+
+  useEffect(() => {
+    if (!location.hash || !isReading) return;
+    const targetId = decodeURIComponent(location.hash.slice(1));
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [isReading, location.hash]);
 
   if (!module) {
     return (
@@ -292,7 +306,9 @@ export default function CourseModule() {
                   <h3>{lesson.heading}</h3>
                   {lesson.subheadings.map((subheading) => (
                     <div key={subheading.heading}>
-                      <h4>{subheading.heading}</h4>
+                      <h4 id={getCourseSectionId(module.id, subheading.heading)}>
+                        {subheading.heading}
+                      </h4>
                       <div className="reading-paragraph">
                         <p>{subheading.content}</p>
                         <Button

@@ -1,14 +1,15 @@
 import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-type MapQuestion = { number: number };
+type MapQuestion = { number: number; multiple?: boolean; correct: string[] };
 
 type QuestionNavigatorProps = {
   questions: MapQuestion[];
   currentQuestion: number;
-  answers: Record<number, string>;
+  answers: Record<number, string[]>;
   bookmarked: number[];
   answeredCount: number;
+  totalQuestions: number;
   onNavigate: (question: number) => void;
 };
 
@@ -18,6 +19,7 @@ export default function QuestionNavigator({
   answers,
   bookmarked,
   answeredCount,
+  totalQuestions,
   onNavigate,
 }: QuestionNavigatorProps) {
   return (
@@ -29,22 +31,28 @@ export default function QuestionNavigator({
         </div>
         <span className="map-count">
           {answeredCount}
-          <i>/30</i>
+          <i>/{totalQuestions}</i>
         </span>
       </div>
       <p className="panel-caption">Jump to a question</p>
       <div className="question-map">
-        {questions.map(({ number }) => (
-          <button
-            className={`map-cell ${currentQuestion === number ? "is-current" : ""} ${answers[number] ? "is-answered" : ""} ${bookmarked.includes(number) ? "is-bookmarked" : ""}`}
+        {questions.map(({ number, multiple, correct }) => {
+          const selectedCount = answers[number]?.length ?? 0;
+          const isAnswered =
+            selectedCount > 0 &&
+            (!multiple || selectedCount === correct.length);
+          return (
+            <button
+            className={`map-cell ${currentQuestion === number ? "is-current" : ""} ${isAnswered ? "is-answered" : ""} ${bookmarked.includes(number) ? "is-bookmarked" : ""}`}
             key={number}
             onClick={() => onNavigate(number)}
-            aria-label={`Go to question ${number}${answers[number] ? ", answered" : ""}${bookmarked.includes(number) ? ", bookmarked" : ""}`}
+            aria-label={`Go to question ${number}${isAnswered ? ", answered" : ""}${bookmarked.includes(number) ? ", bookmarked" : ""}`}
             aria-current={currentQuestion === number ? "step" : undefined}
           >
             {number}
           </button>
-        ))}
+          );
+        })}
       </div>
       <div className="map-legend">
         <span>

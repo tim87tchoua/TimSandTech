@@ -3,10 +3,11 @@ import {
   createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
+import { examQuestions } from "../data/examQuestions";
 
 type ExamState = {
   currentQuestion: number;
-  answers: Record<number, string>;
+  answers: Record<number, string[]>;
   remainingSeconds: number;
   paused: boolean;
   category: string;
@@ -29,13 +30,34 @@ const examSlice = createSlice({
   initialState,
   reducers: {
     goToQuestion(state, action: PayloadAction<number>) {
-      state.currentQuestion = Math.min(30, Math.max(1, action.payload));
+      state.currentQuestion = Math.min(
+        examQuestions.length,
+        Math.max(1, action.payload),
+      );
     },
     selectAnswer(
       state,
-      action: PayloadAction<{ question: number; answer: string }>,
+      action: PayloadAction<{
+        question: number;
+        answer: string;
+        multiple?: boolean;
+        maxAnswers?: number;
+      }>,
     ) {
-      state.answers[action.payload.question] = action.payload.answer;
+      const { question, answer, multiple, maxAnswers = 2 } = action.payload;
+      if (!multiple) {
+        state.answers[question] = [answer];
+        return;
+      }
+
+      const selectedAnswers = state.answers[question] ?? [];
+      if (selectedAnswers.includes(answer)) {
+        state.answers[question] = selectedAnswers.filter(
+          (selectedAnswer) => selectedAnswer !== answer,
+        );
+      } else if (selectedAnswers.length < maxAnswers) {
+        state.answers[question] = [...selectedAnswers, answer];
+      }
     },
     tick(state) {
       if (!state.paused && state.remainingSeconds > 0)
