@@ -65,6 +65,13 @@ export default function Home() {
       );
     },
   ).length;
+  const correctCount = examQuestions.filter((item) => {
+    const selected = answers[item.number] ?? [];
+    return (
+      selected.length === item.correct.length &&
+      item.correct.every((letter) => selected.includes(letter))
+    );
+  }).length;
   const isBookmarked = bookmarked.includes(currentQuestion);
   const courseReferences = question.courseReference ?? "DO-NOT-RELY";
 
@@ -333,7 +340,7 @@ export default function Home() {
           }}
         >
           <section
-            className="modal-panel"
+            className={`modal-panel ${modal === "finish" && submitted ? "assessment-results-panel" : ""}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
@@ -349,8 +356,74 @@ export default function Home() {
             {modal === "finish" && submitted ? (
               <>
                 <span className="modal-kicker">ASSESSMENT COMPLETE</span>
-                <h2 id="modal-title">Assessment submitted</h2>
-                <p>Your responses have been submitted for this session.</p>
+                <h2 id="modal-title">
+                  Results: {correctCount} of {totalQuestions} correct
+                </h2>
+                <p>
+                  {answeredCount} questions answered. Each option includes its
+                  definition and example; the rationale explains the correct
+                  answer.
+                </p>
+                <div className="assessment-review-list">
+                  {examQuestions.map((item) => {
+                    const selected = answers[item.number] ?? [];
+                    const isCorrect =
+                      selected.length === item.correct.length &&
+                      item.correct.every((letter) => selected.includes(letter));
+
+                    return (
+                      <article
+                        className={`assessment-review-question ${isCorrect ? "is-correct" : "is-incorrect"}`}
+                        key={item.number}
+                      >
+                        <div className="assessment-review-heading">
+                          <span>
+                            Question {item.number} · {item.tag}
+                          </span>
+                          <strong>{isCorrect ? "Correct" : "Incorrect"}</strong>
+                        </div>
+                        <h3>{item.prompt}</h3>
+                        <div className="assessment-review-answers">
+                          {item.answers.map(([letter, answer]) => {
+                            const isSelected = selected.includes(letter);
+                            const isAnswerCorrect = item.correct.includes(letter);
+                            const guide = answerGuides[answer];
+                            let answerStatus = "Incorrect option";
+                            if (isSelected && isAnswerCorrect) {
+                              answerStatus = "Your correct response";
+                            } else if (isSelected) {
+                              answerStatus = "Your incorrect response";
+                            } else if (isAnswerCorrect) {
+                              answerStatus = "Missed correct answer";
+                            } else if (selected.length === 0) {
+                              answerStatus = "Not selected";
+                            }
+
+                            return (
+                              <div
+                                className={`assessment-review-answer ${isAnswerCorrect ? "is-answer" : "is-distractor"} ${isSelected ? "is-selected" : ""}`}
+                                key={letter}
+                              >
+                                <div className="assessment-review-answer-title">
+                                  <strong>{letter}. {answer}</strong>
+                                  <span>{answerStatus}</span>
+                                </div>
+                                <p>{guide.definition}</p>
+                                <p className="assessment-review-example">
+                                  Example: {guide.example}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="assessment-review-rationale">
+                          <strong>Why</strong>
+                          <p>{item.rationale}</p>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
                 <div className="modal-actions">
                   <Button
                     variant="plain"

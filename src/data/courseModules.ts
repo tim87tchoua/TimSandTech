@@ -2,6 +2,259 @@ export type CourseLesson = {
   heading: string;
   subheadings: CourseLessonDetail[];
 };
+const module12: CourseModule = {
+    id: 12,
+    title: "Alerting & Monitoring Concepts",
+    category: "Incident Response, Digital Forensics, Data Sources, Alerting and Monitoring Tools",
+    duration: "120 min",
+    objective:
+      "Apply incident response processes, preserve and report digital evidence, identify relevant data sources, and use alerting and monitoring systems.",
+    agenda: [
+      "Incident Response",
+      "Digital Forensics",
+      "Data Sources",
+      "Alerting and Monitoring Tools",
+    ],
+    lessons: [
+      {
+        heading: "Incident Response",
+        subheadings: [
+          {
+            heading: "Incident Response Processes",
+            content: [
+              `Preparation hardens systems and establishes policies, procedures, and confidential communication lines to make it as hard as possible for threat actors to break in. It sets up incident response resources and procedures to discourage attacks and improve initial resilience.`,
+              `Detection discovers indicators of threat actor activity, any signs of potential hacker activity. This could be indicators that an incident may have occurred, generated from an automated intrusion system. Alternatively, incidents might be manually detected through threat hunting operations, reported by employees or customers, or reported by law enforcement.`,
+              `Analysis verifies if an incident occurred and assesses its severity using reported indicators.`,
+              `Containment limits the magnitude of the incident to protect data and minimize immediate impact on customers and business partners. It notifies stakeholders and fulfills other required reporting obligations.`,
+              `Eradication removes the cause and restores the affected system to its secure state by applying secure configuration settings and installing patches once the incident has been contained.`,
+              `Recovery brings systems back into business operations after ensuring the root cause is completely eradicated. This phase includes restoring data from backups and running security tests. Restoring a backup doesn't guarantee the threat is gone; systems must be monitored closely for reoccurrence. Resolution may require cycling multiple times through identification, containment, eradication, and recovery.`,
+              `Lessons Learned: Meet with stakeholders and IT staff to review what happened, how it happened, and how to prevent it. Analyze the incident and response to improve future security measures, procedures, and methods. Thoroughly document the incident and feed these outputs back into the preparation phase for better readiness in the next cycle.`,
+            ].join("\n\n"),
+            example:
+              "After ransomware is detected, responders analyze its scope, isolate affected systems, remove the malware, restore verified backups, monitor for recurrence, and update the incident playbook.",
+          },
+          {
+            heading: "Preparation, Teams, and Communication",
+            content: [
+              `Preparation establishes and updates the policies and procedures for dealing with security breaches. This includes provisioning the personnel and resources needed to implement those policies.`,
+              `Cyber security infrastructure is hardware and software tools to facilitate incident detection, digital forensics, and case management. Incident detection tools provide visibility by automating collection and analysis of network traffic, system state monitoring, and log data. Tools like Suricata or Zeek analyze network packets; Wazuh or Splunk collect and analyze system logs, file integrity, and endpoint telemetry.`,
+              `Forensic tools facilitate acquiring and validating data from system memory and file systems. Volatility or Rekall can capture and analyze RAM dumps to uncover running processes, injected code, and volatile artifacts. Autopsy or FTK Imager can acquire, preserve, and examine file systems to extract deleted files and evidence. Case management tools such as TheHive or Jira Service Management log incident details, track tasks, and coordinate responders. This functionality is often implemented as a product suite.`,
+              `Medium-to-large companies ideally have a dedicated Incident Response team, though this is rare in small companies. Members should have varied competencies to catch different threats. Also known as a CIRT (Computer Incident Response Team), CSIRT (Computer Security Incident Response Team), or CERT (Computer Emergency Response Team), the team includes people who report, categorize, and prioritize incidents.`,
+              `Management/Decision-making Authority: A security head or IT leader oversees the incident and decides what needs to be done. Is this a false positive or a true positive? Are we under attack? If so, what is the next step? Incident Analysts investigate incidents and determine whether they are what they seem to be.`,
+              `Roles beyond technical response include legal, human resources, and public relations. Legal evaluates compliance with laws and industry regulations and can advise on contacting law enforcement. HR addresses employee contracts and employment law, including issues such as dissatisfaction, workplace conflicts, or inadequate training. Public relations manages negative press and social media responses to a serious incident.`,
+              `A communication plan prevents inadvertent disclosures and stops people from sharing information they shouldn't. It needs a call list identifying trusted parties and data shared on a need-to-know basis. Out-of-band communications help avoid alerting the intruder, which could cause them to panic, cover tracks, or sabotage systems. Stakeholder management includes communicating with internal and external stakeholders, notification, and reporting without tipping off the intruder.`,
+              `An Incident Response Plan (IRP) is proactive: set up plans and systems before a breach happens rather than waiting to react. Assume an incident will occur, assign clear roles, and leverage automated systems to handle response smoothly.`,
+            ].join("\n\n"),
+            example:
+              "A CIRT uses an out-of-band call tree, assigns legal and communications contacts, and follows an IRP that defines each responder's role before an incident occurs.",
+          },
+          {
+            heading: "Detection, Analysis, and Playbooks",
+            content: [
+              `Detection channels include monitoring and alerts from logs and other data sources; deviations from baseline metrics compared with normal daily, weekly, or monthly patterns; manual inspection; notification procedures; public reporting; and whistleblowing that exposes attacks internal logs or investigations missed.`,
+              `The first responder is a member of the CIRT team who takes charge of the reported incident, manages required actions, and coordinates tasks for the rest of the team.`,
+              `Analysis and incident identification classify and prioritize incidents so each is treated according to its severity level and the rest of the team can act accordingly. Downgrading low-priority alerts to log-only helps avoid wasting valuable resources on minor events, allowing the team to focus on high-priority ones.`,
+              `Impact analysis considers data integrity and downtime, economics and publicity, the scope and magnitude of impact, detection time, and recovery time. Lessons Learned and Improvement review detection and recovery times to optimize future response efforts and speed up reaction capabilities.`,
+              `Kill chains and threat intelligence: Incident categories and definitions ensure that response team members and organizational personnel share an understanding of terms, concepts, and descriptions. Effective incident analysis depends on threat intelligence research into adversary tactics, techniques, and procedures.`,
+              `A playbook is a structured plan and list of step-by-step actions outlining how to tackle specific scenarios and everyone's responsibilities.`,
+            ].join("\n\n"),
+            example:
+              "An analyst compares a burst of failed logins with the normal baseline, classifies it as high priority, and follows the account-compromise playbook while the first responder coordinates containment.",
+          },
+          {
+            heading: "Containment, Eradication, Recovery, and Threat Hunting",
+            content: [
+              `Containment issues include losing control, choosing available countermeasures, and preserving evidence. Evidence may be needed in court, for an investigation, research, or troubleshooting, so preserve it for later use.`,
+              `Isolation-based containment removes an affected component from its larger environment. This can range from removing a server from a network after a denial-of-service attack to placing an application in a sandbox. Isolation removes interfaces between the affected system and the production network or internet. A simple option is disconnecting the host by pulling the network plug or disabling its managed switch port. This is the least stealthy option and reduces opportunities to analyze the attack or malware.`,
+              `Segmentation-based containment isolates a host or group of hosts using network technologies and architecture. VLANs, routing, subnets, and firewall access controllers prevent a host or group of hosts from communicating outside the protected segment.`,
+              `Eradication and Recovery include reconstitution of affected systems, re-auditing security controls to learn how attackers or malware entered, and ensuring affected parties and stakeholders are notified.`,
+              `Threat hunting is a proactive process where analysts actively hunt for suspicious indicators, like odd login times or anomalies, instead of waiting for tools to alert or users to report. It helps uncover threats and new attack types that automated tools might miss or flag as normal behavior. It is proactive instead of reactive incident response and can provide warning of new threat types.`,
+            ].join("\n\n"),
+            example:
+              "Responders isolate a compromised server, preserve evidence, move related hosts into a restricted VLAN, eradicate the root cause, restore clean systems, and proactively hunt for similar indicators elsewhere.",
+          },
+          {
+            heading: "Testing and Training",
+            content: [
+              `Tabletop exercises are the cheapest and quickest way to test a plan, but they are not the most efficient way to learn. A tabletop is theory; participants do not act on computer systems. Facilitators present a scenario, and responders discuss what actions they would take to identify, contain, and eradicate the threat. Scenario data may be presented as flashcards.`,
+              `Walkthroughs involve responders demonstrating the actions they would take. Unlike a tabletop exercise, responders perform actions such as running scans or analyzing sample files, typically in a sandbox version of the company's response tools rather than the live environment.`,
+              `Simulation is a team-based exercise where the red team attempts an intrusion, the blue team operates responses and recovery controls, and the white team moderates and evaluates the exercise.`,
+              `Training requires considerable investment and planning. Immediate staff actions following detection heavily dictate successful incident outcomes, requiring quick, alert, and well-equipped personnel. Equip staff with proper incident detection and reporting procedures. Training must span all involved groups to prevent slow responses, miscommunication, and mistakes during an actual event.`,
+            ].join("\n\n"),
+            example:
+              "A company starts with a tabletop ransomware scenario, runs a walkthrough in a sandbox, then conducts a red/blue/white team simulation and trains staff on reporting procedures.",
+          },
+        ],
+      },
+      {
+        heading: "Digital Forensics",
+        subheadings: [
+          {
+            heading: "Due Process and Legal Hold",
+            content: [
+              `Digital forensics is the practice of collecting evidence from computer systems to a standard that will be accepted in a court of law. It must be collected, stored, and handled correctly and without bias. Forensic investigations may be launched to prosecute crimes arising from insider threats, including fraud or malicious equipment, as well as other crimes. Prosecuting external threat sources can be difficult because actors may be in different countries and take precautions to disguise their identity and location.`,
+              `Evidence, documentation, and admissibility: Like fingerprints, digital evidence is latent. It cannot be seen with the naked eyes and must be interpreted using a machine or process. Formal steps must be taken to ensure admissibility. Digital forensics requires documentation showing how evidence was collected and analyzed without tampering or bias.`,
+              `Due process is a common-law principle (US/UK) requiring crimes to be proven through the fair application of laws using procedural safeguards to ensure fairness and prevent bias. It is central to forensic investigations; technicians and managers must understand investigation processes to assist investigators without compromising a case. Defense counsel will exploit uncertainty, mistakes, or incorrect evidence handling or collection during a trial.`,
+              `Legal hold means that information relevant to a court case must be preserved. Authorities may have the power to seize systems as evidence. Information subject to legal hold may be defined by regulators, industry practice, or a litigation notice from law enforcement or lawyers pursuing civil action. A company subject to legal hold will usually have to suspend routine deletion or destruction of electronic or paper records and logs until the investigation is concluded.`,
+            ].join("\n\n"),
+            example:
+              "After a legal hold notice, an organization suspends log-retention deletion, documents every evidence handler, and preserves relevant devices until the investigation concludes.",
+          },
+          {
+            heading: "Preservation and Evidence Integrity",
+            content: [
+              `Timeline and provenance: Evidence collected at a crime scene must conform to a valid timeline. Digital information is susceptible to tampering, so access must be tightly controlled. Video recording the evidence acquisition process establishes provenance from the crime scene. To obtain a forensically sound image from non-volatile storage, the capture tool must not alter data or metadata on the source disk or file system.`,
+              `Data acquisition would normally proceed by attaching the target device to a forensics workstation or field capture device equipped with a write blocker. A write blocker prevents data on the disk or volume from being changed by issuing write commands at the driver and operating system level.`,
+              `Evidence integrity and non-repudiation: First, a cryptographic hash of the disk media is made using MD5 or SHA. Second, a bit-by-bit copy of the media is made using an imaging utility. Third, a second hash is made of the image and should match the original hash of the media. Fourth, a copy of the reference image is validated again by a checksum, and analysis is performed on that copy. Hashes prove that no modifications have been made to the image.`,
+              `Chain of custody: Devices and media taken from the crime scene should be labeled, bagged, and sealed using tamper-evident bags. Anti-static shielding reduces the possibility that electronic media will be damaged or corrupted by electrostatic discharge. Each piece of evidence should be documented by a chain-of-custody form recording where, when, and who collected it, who subsequently handled it, and where it was stored. The evidence should be stored in a secure facility with access and environmental controls.`,
+            ].join("\n\n"),
+            example:
+              "An examiner uses a write blocker to image a seized drive, records its custody transfers, and verifies that the image hash matches the source-media hash before analysis.",
+          },
+          {
+            heading: "Forensic Reporting",
+            content: [
+              `Reporting summarizes the significant contents of digital data and the conclusions from the investigator's analysis. Strong ethical principles must guide forensic analysis. Analysis must be performed without bias, so conclusions and opinions should be formed only from direct evidence and analysis.`,
+              `Analysis methods must be repeatable by third parties with access to the same evidence. Ideally, evidence must not be changed or manipulated. If a device used as evidence must be manipulated to facilitate analysis—disabling the lock feature of a mobile phone or preventing a remote wipe, for example—the reasons for doing so must be sound, and the process must be recorded. The defense counsel will try to use deviations from good ethical and professional behavior to have findings dismissed.`,
+              `A digital forensics team is investigating an incident and implementing integrity to ensure the collected data is not tampered with or modified. The best answer is the preservation phase. Acquisition is initially collecting data from the source. Preservation ensures the data is not tampered with or altered while stored. Reporting is the final phase, where a report documents the tools used, who was involved, and what data was recovered. A tabletop exercise is an incident-response discussion and is not a digital forensics phase.`,
+            ].join("\n\n"),
+            example:
+              "A forensic report lists the acquisition tool, hashes, evidence handlers, analysis steps, findings, and limitations so another examiner can reproduce the work.",
+          },
+        ],
+      },
+      {
+        heading: "Data Sources",
+        subheadings: [
+          {
+            heading: "Data Sources, Dashboards, and Reports",
+            content: [
+              `In the context of an incident response case or digital forensics investigation, a data source is something that can be subjected to analysis to discover indicators. Investigations use diverse data sources, including system memory and media device file-system data and metadata; log files generated by network appliances such as switches, routers, and firewalls; network traffic captured by sensors; and alertable or loggable conditions raised by intrusion detection systems.`,
+              `Data sources also include log files and alerts generated by network-based vulnerability scanners, operating system components on client and server hosts, applications and services running on hosts, and endpoint security software such as host-based intrusion detection, vulnerability scanning, antivirus, and firewall tools.`,
+            ].join("\n\n"),
+            example:
+              "An investigation correlates a memory image, firewall logs, IDS alerts, operating-system events, and endpoint-protection records to identify the incident timeline.",
+          },
+          {
+            heading: "Log Data",
+            content: [
+              `Everything in IT these days is keeping a log. It doesn't matter if you're on a laptop, desktop, phone, tablet, server, or in the cloud. It doesn't matter who you are logged in as. Everything is logged. You can do something as simple as creating an account or changing someone's password, and I can guarantee that is logged.`,
+              `We have many kinds of log data. Some system-related logs show errors and other system events. Application-related logs show when applications were started or crashed. Network-related logs show when someone or something connected over the network. Log data is a critical resource when investigating security incidents. Consider both the log format and the range of log sources; don't just look in one location.`,
+              `Some logs are built into the system, like Event Viewer, which is available on both client and server operating systems. Other logs are found on a firewall, so you can find them everywhere. Event data is generated by processes running on network appliances and computing hosts. The process typically writes event data to a specific log file or database. Each event comprises message data and metadata. The message data is the notification or alert, such as login failure or firewall rule dropping traffic. Metadata includes the source and time, and might include a host or network address, process name, categorization, or priority.`,
+              `With Windows hosts and applications, we can use Event Viewer. Each event has a header reporting the source, level, user, timestamp, category, keywords, and host name.`,
+              `Syslog provides an open-format protocol and server software for logging event messages. It is used by many host types. Syslog messages can be generated by switches, routers, firewalls, Unix or Linux servers, and workstations. These log files can be kept and analyzed individually, but most organizations require better visibility into resources and host monitoring.`,
+              `An application log file is managed by an application rather than the operating system. The application may use Event Viewer or system log to write event data using a standard format, or write log files to its own application directories in a format selected by the developer.`,
+              `An endpoint log is likely to refer to events monitored by security software running on a host rather than by the operating system itself. This can include host-based firewalls and intrusion detection, vulnerability scanners, and antivirus or anti-malware protection suites. Suites that integrate these functions into a single product are often called an endpoint protection platform (EPP).`,
+            ].join("\n\n"),
+            example:
+              "An analyst checks Windows Event Viewer for logon events, application logs for a crash, and firewall logs for suspicious network connections around the same timestamp.",
+          },
+          {
+            heading: "Network Data Sources",
+            content: [
+              `Network logs are traffic and access data from network appliances such as switches, routers, and firewalls (UTMs). Firewall logs can correlate to malicious activity on hosts. If a malicious event on someone's machine is trying to spread over the network or do something over the network, the firewall logs may indicate that. Intrusion prevention and detection logs are often built into firewalls, but can also be found on servers. They summarize the volume of detection incidents to indicate threat level.`,
+              `NetFlow/IPFIX: A NetFlow collector records metadata and statistics about network traffic rather than each frame. Network traffic and flow data may come from switches, routers, firewalls, and web proxies. NetFlow analysis tools can highlight trends and patterns in traffic from particular applications, hosts, and ports; alert on anomalies or custom triggers; visualize network connections; identify rogue user behavior, malware in transit, tunneling, or applications exceeding allocated bandwidth; and identify attempts by malware to contact a handler or command-and-control channel.`,
+              `NetFlow is a Cisco-developed means of reporting network flow information to a structured database. It has been redeveloped as IP Flow Information Export (IPFIX). A traffic flow can be defined by packets sharing characteristics (keys). A selection of keys is called a flow table, while traffic matching a flow table is called a flow record. Characteristics can include IP source and destination addresses and protocol type. A five-tuple can include source and destination addresses, source and destination ports, and protocol; exporters detect new flows, set expiration timers, and transmit data to the collector when a flow expires or becomes inactive.`,
+            ].join("\n\n"),
+            example:
+              "A NetFlow collector shows a workstation sending repeated connections to an unfamiliar external host, while firewall and IDS logs confirm whether those connections were allowed or flagged.",
+          },
+        ],
+      },
+      {
+        heading: "Alerting and Monitoring Tools",
+        subheadings: [
+          {
+            heading: "Security Information and Event Management",
+            content: [
+              `Log collection has three kinds: agent-based, listener/collector, and sensor.`,
+              `Agent-based: This approach means installing an agent service on each host. As an event occurs, logging data is filtered, aggregated, and normalized at the host, then sent to the SIEM server for analysis and storage (local agent to forward logs). Collection from Windows, Linux, or Mac operating-system computers will tend to use agent-based collection. The agent must run a process and could use from 50 to 500 megabytes of RAM, depending on the amount of activity and background processing.`,
+              `Listener or collector: Rather than installing an agent, hosts can be configured to push log changes to that SIEM server (protocol-based remote log forwarding). A process runs on the management server to parse and normalize each log or monitoring source. This method is often used to collect logs from switches, routers, and firewalls, as these are unlikely to support agents.`,
+              `Sensor: As well as log data, the SIEM might collect packet captures and traffic-flow data from sniffers. A sniffer can record internet traffic using either the mirror-port functionality of a switch or a tap on the Ethernet media.`,
+            ].join("\n\n"),
+            example:
+              "A SIEM agent forwards normalized Windows events from laptops, while a firewall sends syslog to a remote collector and a network sensor supplies packet-flow data.",
+          },
+          {
+            heading: "Monitoring Infrastructure",
+            content: [
+              `Network monitors collect data about network infrastructure appliances such as switches, access points, routers, and firewalls. This is used to monitor load status for CPU and memory, state tables, disk capacity, fan speeds or temperatures, network-link utilization, and network-error statistics. Another important function is the heartbeat message, which indicates availability on the network.`,
+              `NetFlow/IPFIX collectors record traffic statistics. Analysis tools can highlight trends and patterns for applications, hosts, and ports; alert on anomalies; visualize connections; identify rogue user behavior, malware in transit, tunneling, or applications exceeding allocated bandwidth; and identify attempts by malware to contact a handler or command-and-control channel.`,
+            ].join("\n\n"),
+            example:
+              "A network monitor alerts when a firewall's CPU usage spikes and its heartbeat stops, while flow analysis identifies an unusual outbound traffic pattern.",
+          },
+          {
+            heading: "Monitoring Systems and Applications",
+            content: [
+              `System monitors and logs include system health reporting to check whether machines are up and running, system logs to diagnose availability issues, and security logs to audit access. Security logs show if somebody tried to log into a machine and when, including how many attempts occurred before successful access.`,
+              `Application and cloud monitors provide application-health monitoring to see if applications are running or crashed and what errors were encountered. Cloud-service health monitoring checks whether cloud services are available and can reveal denial-of-service attacks or other outages.`,
+              `Vulnerability scanners and old-fashioned antivirus are monitoring tools. Antivirus protection runs automatically.`,
+              `Data loss prevention (DLP) uses policies enforced through conditions and actions. An administrator specifies conditions, and if one is met, a specified action kicks in. DLP scans for sensitive information types, including credit card numbers, social security numbers, ID numbers, passport numbers, first and last names, email addresses, and phone numbers. If sensitive information is shared when it should not be, the configured action is triggered.`,
+              `Enhanced detection and response or extended detection and response tools can integrate directly with a SIEM using agent-based software. They can summarize detection incidents to indicate the threat level of a host or group of hosts. Vulnerability scans can log vulnerabilities, missing patches, and non-compliance with baseline security configurations to a SIEM.`,
+            ].join("\n\n"),
+            example:
+              "A DLP policy detects a credit-card number being shared externally and blocks the transfer, while endpoint telemetry and vulnerability-scan results feed into the SIEM for investigation.",
+          },
+          {
+            heading: "Professional Resume Bullet Points",
+            content: [
+              `Implemented and configured Wazuh and Splunk platforms to automatically aggregate, collect, and analyze system logs, endpoint telemetry, and file integrity data, reducing enterprise threat detection times by 40% across enterprise environments. (SIEM Engineering or core SOC Analyst)`,
+              `Deployed Suricata and Zeek network monitoring tools to automatically inspect network packets for malicious traffic flows and anomalies, increasing early threat identification accuracy across network perimeters by 35%. (Threat Detection or Network Security Analyst)`,
+              `Conducted volatile memory analysis and disk forensics using Volatility, Autopsy, and FTK Imager to capture RAM dumps and preserve evidence, achieving a 100% court-admissible chain of custody for internal incident investigations. (DFIR Investigator)`,
+              `Integrated Data Loss Prevention (DLP) and endpoint protection platforms to scan environments for over 300 sensitive info types, successfully enforcing automated conditions and actions that prevented unauthorized data sharing.`,
+              `Streamlined incident response coordination and task tracking across multidisciplinary teams by deploying TheHive and Jira Service Management case management databases, decreasing mean time to resolution (MTTR) by 30%. (Information Security Analyst or Endpoint Security Engineer)`,
+            ].join("\n\n"),
+            example:
+              "A candidate documents measured detection-time improvement from deploying Wazuh and Splunk and a reduced incident MTTR after introducing TheHive workflows.",
+          },
+          {
+            heading: "Study Questions and Responses",
+            content: [
+              `1. What is the primary purpose of the preparation phase in incident response?
+
+Response: The preparation phase hardens systems and establishes policies, procedures, and confidential communication lines to make it as difficult as possible for threat actors to break in, while provisioning the necessary personnel and resources to improve initial resilience.`,
+              `2. What are the key operational differences between tabletop exercises, walkthroughs, and simulations?
+
+Response: A tabletop exercise is a low-cost, discussion-based classroom environment where facilitators present hypothetical scenarios and responders explain their actions without using live computer systems. Walkthroughs involve incident responders actually demonstrating response actions (such as running scans or analyzing files), typically inside a safe sandbox environment. Simulations are full team-based exercises where a red team attempts an intrusion, a blue team operates response and recovery controls, and a white team moderates and evaluates the exercise.`,
+              `3. How do Suricata and Zeek contribute to network traffic analysis?
+
+Response: Suricata and Zeek act as network monitoring tools that automatically analyze network packets for malicious activity, providing visibility into network traffic flows and anomalies.`,
+              `4. What is the operational difference between Volatility and Autopsy in digital forensics?
+
+Response: Volatility is a memory acquisition and analysis tool used to capture and examine RAM dumps to uncover running processes and injected code, whereas Autopsy is a disk and file-system forensics tool used to acquire, preserve, and examine file systems for deleted files and physical evidence.`,
+              `5. What information comprises a five-tuple in NetFlow and IPFIX traffic data collection?
+
+Response: A five-tuple consists of source IP address, destination IP address, source port, destination port, and protocol.`,
+              `6. What does the term latent mean when describing digital evidence?
+
+Response: Latent means that the evidence cannot be seen with the naked eye and must be interpreted using a machine or process, necessitating formal steps to ensure its admissibility in a court of law.`,
+              `7. What is the specific function of a write blocker during digital data acquisition?
+
+Response: A write blocker prevents data on a disk or volume from being modified by issuing write commands at the driver and operating-system level, ensuring evidence integrity and preventing tampering.`,
+              `8. What are the four mandatory steps of data acquisition to ensure evidence integrity and non-repudiation?
+
+Response: (1) Create an initial cryptographic hash of the disk media using MD5 or SHA; (2) make a bit-by-bit copy of the media using an imaging utility; (3) generate a second hash of the image to match the original media hash; and (4) make a copy of the reference image, validate it with a checksum, and perform analysis exclusively on that copy.`,
+              `9. What is a legal hold, and how does it impact a company's data handling policies?
+
+Response: A legal hold requires information relevant to a court case to be preserved. Companies temporarily suspend routine deletion or destruction of electronic or paper records, logs, and files until the investigation concludes.`,
+              `10. What distinguishes agent-based SIEM log collection from listener/collector log collection?
+
+Response: Agent-based collection installs an agent on operating-system hosts (such as Windows or Linux) to filter, aggregate, and normalize logs locally before sending them to the SIEM. Listener or collector collection uses protocol-based remote log forwarding, where network devices such as switches, routers, and firewalls push log changes to the management server.`,
+              `11. How do isolation-based containment and segmentation-based containment differ?
+
+Response: Isolation-based containment removes a single affected component or host from the larger environment (such as pulling a network plug or placing an application in a sandbox). Segmentation-based containment uses network technologies such as VLANs, routing, subnets, and firewall access controllers to prevent an entire group of hosts from communicating outside a protected segment.`,
+              `12. How do Data Loss Prevention (DLP) policies function within enterprise security monitoring?
+
+Response: DLP policies operate on conditions and actions, scanning systems for sensitive information types (such as credit card, passport, and social security numbers) and automatically triggering specified actions if unauthorized sharing or exposure is detected.`,
+            ].join("\n\n"),
+            example:
+              "An incident responder can explain the IR phases, distinguish agent and collector logging, preserve evidence with hashes and write blockers, and describe how DLP conditions trigger actions.",
+          },
+        ],
+      },
+    ],
+};
 
 export type CourseLessonDetail = {
   heading: string;
@@ -578,15 +831,62 @@ The IT industry also relies heavily on outsourced services, such as a Managed Se
           {
             heading: "Recognizing Social Engineering",
             content: [
-              `These vectors rely on tricking or luring users into taking an action they should not take.`,
-              `When using file-based lures, threat actors need a delivery mechanism and a message to trick users into opening the file. Consequently, any features that allow direct messaging to users form part of the potential attack surface.`,
-              `Email: Attackers send malicious file attachments or links via email or other communication systems. Success relies entirely on social engineering to persuade or trick the user into opening the attachment.`,
-              `Voice and Pretexting: Message-based vectors can also be exploited via voice calls, where an attacker uses social engineering and pretexts (such as impersonating an IT help desk technician) to trick a user into revealing passwords or weakening security configurations (like turning off a firewall).`,
-              `Organizations mitigate the risk of drop attacks by disabling features like Autoplay on endpoints to prevent automatic execution.`,
-              `A common way everyday users encounter lure-based vectors is by visiting unsavory websites or downloading pirated torrents of popular movies and TV shows. Downloading files from unverified sources frequently exposes users to hidden malware, macros, and scripting payloads embedded right inside the media file.`,
+              `The human factor plays a critical role in security, often revolving around social engineering, the practice of tricking someone into doing something or giving up sensitive information. Because people are frequently considered the weakest link in any organization, even the most advanced, NASA-grade security infrastructure can be rendered completely useless if employees lack basic security awareness training.`,
+              `Training your team on the fundamentals is essential. For instance, employees must know that legitimate platforms and service providers will never email them to ask for their username and password. Without this awareness, staff easily fall victim to phishing expeditions, where bad actors impersonate trusted entities like a bank to steal credentials.`,
+              `Threat actors use social engineering for reconnaissance and information elicitation. When attackers are working remotely and cannot breach a network directly, they trick employees into revealing internal details—such as firewall configurations, on-premises versus cloud setups, and server architecture—to gather intelligence for subsequent attacks. They also use it to gain unauthorized access. Once attackers gather the information they need, they launch intrusions through various attack scenarios.`,
+              `Common scenarios include persuading users to run malicious files. Fake pop-up messages on browsers might warn users that their computer is compromised and prompt them to click a button or link to run an antivirus scan. While IT professionals easily ignore these traps, non-technical staff often fall victim and inadvertently execute malware.`,
+              `Threat actors frequently contact IT or corporate help desks, impersonating legitimate users in distress. They use pretexting and social engineering not for genuine support, but as an indirect method to extract sensitive configuration data or credentials out of support staff. Attackers may also physically infiltrate a building to install monitoring devices or spyware directly onto workstations via USB flash drives. While some spyware can be deployed remotely, many physical monitoring tools require the perpetrator to gain direct, on-premises access to the facility at least once.`,
             ].join("\n\n"),
             example:
               "An employee receives an urgent email that appears to come from IT and asks them to sign in through a link; they report it and contact IT using the published help desk number instead of following the link.",
+          },
+          {
+            heading: "Impersonation and Pretexting",
+            content: [
+              `Impersonation involves pretending to be someone you are not, serving as a form of spoofing. Threat actors who engage in impersonation are typically persuasive, agreeable, and cultivate a likeable approach. They may pretend to be a friendly member of the IT department who is eager to help, masking their true intent to gain unauthorized access or compromise a machine.`,
+              `Alternatively, attackers may use intimidation and coercion to force a target into compliance. This approach relies on two primary tactics:
+
+- Persuasiveness/consensus/liking approach: Convincing the target that the request is natural, making it feel odd or impolite to refuse.
+- Coercion/threat/urgency approach: Frightening the target by manufacturing a false sense of urgency (such as claiming something must be checked immediately) to avoid disciplinary action, penalties, or the threat of getting fired.`,
+              `Pretexting
+
+A classic impersonation attack often involves a social engineer phoning into an organization with a pre-planned dialogue or script. This technique is known as pretexting.`,
+              `Pretexting relies on a carefully crafted story designed to charm or intimidate the target (exploiting situations where identity proofing is difficult). Attackers anticipate potential responses and prepare automatic answers for any questions the target might raise, using a scenario with convincing additional detail. To make these scenarios convincing, threat actors often gather background intelligence through reconnaissance, sometimes utilizing methods like dumpster diving to scour trash cans and un-shredded documents for internal phone lists, department names, job titles, diaries, or invoices. This provides data that supports the identity claim.`,
+              `Because many corporate cultures prioritize customer service over security, employees are often willing to help, making it easier for attackers to acquire seemingly innocuous information that makes future impersonation attacks look entirely legitimate.`,
+            ].join("\n\n"),
+            example:
+              "An attacker calls the help desk posing as an employee who is locked out, cites convincing personal details, and pressures the technician to reset the account without following identity-verification procedures.",
+          },
+          {
+            heading: "Phishing and Pharming",
+            content: [
+              `Phishing is a social engineering technique used to trick users, typically via email, into clicking malicious links, downloading files, or surrendering sensitive information. For example, an attacker might send an email pretending to be a trusted entity like a bank, asking the recipient to confirm their username and password. Because messages coming from generic domains (like @gmail or @outlook.com) look suspicious, phishing is most commonly combined with spoofing, where attackers forge email addresses to make fraudulent communications appear genuine. Phishing primarily seeks to:
+
+- Trick targets into using malicious resources or visiting fraudulent websites.
+- Impersonate legitimate communications and sites to harvest credentials.`,
+              `Subcategories of Phishing
+
+Phishing tactics extend beyond email into other communication channels:
+
+- Vishing (Voice Phishing): Conducting phishing attacks via telephone or voice calls, where an attacker impersonates an organization like a bank to verbally extract sensitive information.
+- Smishing (SMS Phishing): Sending fraudulent text messages or SMS links designed to persuade users into disclosing personal details.`,
+              `To minimize the risk of detection, perpetrators favor these passive techniques because they offer the path of least resistance.`,
+              `Pharming involves redirecting users to a fake website that looks identical to a legitimate service (such as Facebook, X, Instagram, or a banking portal). When the unsuspecting user types in their credentials, the attacker harvests them.`,
+              `To avoid raising suspicion or alerting the victim, advanced pharming attacks often redirect the user to the real website immediately after capturing their credentials on the fake login page. If the initial login attempt fails or simply reloads without warning, the user might grow suspicious or reset their password; redirecting them to the authentic site ensures a smoother second login attempt while the attacker quietly retains the stolen data. This malicious redirection is frequently achieved using DNS spoofing.`,
+            ].join("\n\n"),
+            example:
+              "A smishing text links to a fake bank login page; pharming can instead redirect a correctly typed banking URL to a convincing fraudulent site that captures credentials.",
+          },
+          {
+            heading: "Typosquatting",
+            content: [
+              `Typosquatting is a deceptive technique used by threat actors to make phishing messages and fake websites look highly convincing. In typosquatting, a hacker registers a domain name that closely resembles a legitimate, trusted domain, often by introducing a subtle typo, such as adding an extra letter (like changing timsandtech.com to timsandtechs.com).`,
+              `Even attentive individuals can easily miss a single altered or missing character. Because the domain looks nearly identical, victims are easily tricked into trusting fraudulent websites or believing an email came from a legitimate organization. This tactic can also be used in email addresses to execute spoofing attacks, leaving recipients unsure whether an address is authentic, especially since some major organizations legitimately own multiple domain variations.`,
+              `Typosquatting domains are often referred to by several alternative names, including cousin domains, doppelgängers, and counterfeiters.`,
+              `When evaluating emails or web links, it is critical to carefully inspect the "from" field or URL structure. If an email address or website domain looks slightly off, or if you suspect a spoofed domain, always verify the source before interacting or sharing sensitive information.`,
+            ].join("\n\n"),
+            example:
+              "An attacker registers timsandtechs.com, a lookalike of timsandtech.com, and uses it to host a fake sign-in page; checking the full domain reveals the typo.",
           },
         ],
       },
@@ -595,7 +895,7 @@ The IT industry also relies heavily on outsourced services, such as a Managed Se
   {
     id: 4,
     title: "Implement Identity and Access Management (IAM)",
-    category: "Identity and Access Management",
+    category: "Authentication, Access Management, Identity Management",
     duration: "120 min",
     objective:
       "Implement password-based and multifactor authentication, account policies and authorization solutions, and single sign-on and federated identity solutions.",
@@ -879,10 +1179,11 @@ In a Windows domain environment, the KDC is implemented directly on the domain c
       },
     ],
   },
+  module12,
   {
     id: 13,
     title: "Analyze Indicators of Malicious Activity",
-    category: "Malware and Attack Indicators",
+    category: "Malware Attack Indicators, Physical and Network Attack Indicators, Application Attack Indicators",
     duration: "120 min",
     objective:
       "Analyze indicators of malicious activity across malware, physical and network attacks, and application attacks.",
@@ -1068,98 +1369,6 @@ In a Windows domain environment, the KDC is implemented directly on the domain c
             ].join("\n\n"),
             example:
               "An attacker captures a session cookie and reuses its token to impersonate the user; secure cookie attributes, HTTPS, and session expiration help limit replay risk.",
-          },
-        ],
-      },
-      {
-        heading: "Career Applications and Review Questions",
-        subheadings: [
-          {
-            heading: "Professional Resume Bullets and Detection Tools",
-            content: [
-              `Professional Resume Bullets (X-Y-Z Method)
-
-- Engineered a centralized Wazuh SIEM monitoring architecture utilizing custom XML decoders and correlation rules to parse and analyze 15,000+ daily log events, successfully detecting abnormal resource consumption, browser alterations, and covert ransomware notification indicators.
-
-Related SIEM platforms and detection approaches:
-- Splunk Enterprise Security: Use Splunk's SPL engine for correlation searches across high-volume log streams (SPL correlation searches).
-- Microsoft Sentinel: Use cloud-native SIEM analytics powered by Kusto Query Language (KQL analytics rules).
-- Google Cloud Chronicle SIEM: Use hyperscale security analytics driven by YARA-L detection rules.
-- Elastic Security (ELK Stack) SIEM: Use structured Elasticsearch indices, Kibana dashboards, and detection rules (Elastic Agent telemetry and detection rules).
-
-Roles: SOC Analyst and Detection Engineer.`,
-              `- Performed deep artifact analysis on intercepted HTTP session cookies and network packet captures using Wireshark to mitigate token-harvesting vectors and prevent unauthorized replay attacks.
-
-Related network analysis tools:
-- TShark: Use the command-line network analyzer for scriptable, automated packet dissection and log pipeline extraction.
-- NetworkMiner: Use the network forensic analysis tool (NFAT) for passive artifact extraction, credential harvesting detection, and session file reconstruction.
-- Zeek, formerly Bro: Use the network analysis framework to generate structured connection logs and detect anomalous protocol behaviors.
-- Tcpdump filter: Use the lightweight command-line packet capture utility for real-time header inspection and traffic filtering.
-
-Roles: Cyber Operations and Security Engineering.`,
-              `- Configured Suricata and SafeLine Web Application Firewall rule sets to inspect application-layer traffic, blocking arbitrary code execution attempts, privilege escalation, and session hijacking.
-
-Related WAF and application protection options:
-- Snort (by Cisco) and AWS WAF: Use Cisco's open-source detection engine alongside cloud-native web application firewalls.
-- Palo Alto Networks Threat Prevention and Prisma Access WAF: Use next-gen firewall security profiles and cloud WAF controls.
-- Suricata and Cloudflare Enterprise WAF and Managed Rulesets: Use edge-based proxy security and custom WAF managed rules.
-- Suricata and ModSecurity with OWASP Core Rule Set (CRS): Use open-source web application firewall engines deployed on a reverse proxy like Nginx or Apache.
-
-Roles: Cyber Operations and Security Engineering.`,
-              `- Conducted threat-hunting simulations utilizing Invoke-Atomic Red Team and PowerShell script block logging to identify malicious credential harvesting, rogue access point associations, and unauthorized lateral movement across endpoints.
-
-Related adversary simulation and endpoint monitoring tools:
-- MITRE Caldera and Sysmon Event Channels: Use automated adversary emulation systems alongside centralized system monitoring logs, utilizing MITRE Caldera and Sysmon event channels (Event ID 1, 3, 11).
-- Metasploit Framework and Microsoft Defender for Endpoint (MDE): Use exploit testing platforms alongside EDR advanced hunting telemetry, utilizing Metasploit validation modules and Microsoft Defender for Endpoint Advanced Hunting queries.
-- PurpleSharp and CrowdStrike Falcon Telemetry: Use enterprise-grade adversary simulation tools with cloud-native EDR logs, utilizing PurpleSharp automation and CrowdStrike Falcon endpoint telemetry.
-- Manual Red Team Scripts and Windows Event Forwarding (WEF): Use custom execution scripts with centralized event collection pipelines, utilizing custom penetration scripts and centralized Windows Event Forwarding collectors.`,
-              `Related threat emulation and SIEM combinations:
-- Atomic Red Team and Splunk Enterprise Security: Use pre-packaged security control validation tests alongside enterprise SIEM queries, utilizing Atomic Red Team and centralized Splunk Enterprise Security correlation searches.
-- Stratus Red Team and Microsoft Sentinel (KQL): Use cloud-native threat emulation tools paired with Azure SIEM analytics, utilizing Stratus Red Team and centralized Microsoft Sentinel KQL queries.
-- Pangolin and Elastic Security (ELK): Use adversary emulation platforms alongside centralized Elasticsearch event pipelines, utilizing Pangolin and centralized Elastic Security log indices.
-- Atomic Red Team and Wazuh FIM/Log Collector: Use structured open-source emulation tests alongside Wazuh manager alerts, utilizing Atomic Red Team and centralized Wazuh manager event collectors.
-
-Role: Threat Hunter or advanced Security Analyst.`,
-            ].join("\n\n"),
-            example:
-              "A detection engineer documents measurable SIEM coverage, uses packet and endpoint telemetry to investigate replay attempts, and validates application defenses with controlled red-team simulations.",
-          },
-          {
-            heading: "Practice Review Questions and Answers",
-            content: [
-              `1. What defines a virus in contrast to broader umbrella categories of malicious software?
-
-Answer: While malware is a broad umbrella term indicating something malicious is present, a virus is a specific type of malicious code designed to be harmful right from the start.`,
-              `2. Why do IT professionals typically select custom or advanced installation settings instead of default options when deploying software?
-
-Answer: Custom installations allow users to pick the install directory and untick boxes to block unwanted toolbars, software bundling, and browser homepage modifications introduced by PUPs and PUAs.`,
-              `3. What mechanism do tracking beacons use to collect metadata and perform browser fingerprinting?
-
-Answer: Beacons utilize a single-pixel image embedded into a website that forces the browser to make a download request, allowing the beacon host to collect metadata.`,
-              `4. How do targeted keyloggers differ from full-capture keyloggers in terms of operational efficiency?
-
-Answer: Targeted keyloggers specifically detect when a user is entering sensitive information or logging into an account, whereas full-capture variants record every single keystroke, generating an overwhelming volume of raw data that is tedious to sift through.`,
-              `5. What is the operational distinction between cryptomining and crypto-malware (cryptojacking)?
-
-Answer: Cryptomining is when an individual uses their own hardware resources to solve complex mathematical equations for cryptocurrency rewards, whereas crypto-malware covertly hijacks a victim's system resources to perform cryptomining for someone else's financial gain.`,
-              `6. What physical attack vector involves encoding passive tags that produce electromagnetic waves to power up when a reader is in range?
-
-Answer: Radio Frequency Identification (RFID) technology, which is commonly used to implement contactless building access control systems, badges, and fobs.`,
-              `7. How does Address Resolution Protocol (ARP) poisoning function during a network attack?
-
-Answer: ARP poisoning involves broadcasting unsolicited ARP replies to poison the cache of local hosts with spoofed MAC addresses, allowing the attacker to masquerade as the default gateway to capture traffic.`,
-              `8. What primary risk is associated with rogue access points, also known as evil twins?
-
-Answer: Rogue access points mimic trusted network SSIDs to trick devices into connecting, giving attackers a direct pipeline to launch on-path attacks, harvest credentials, and inspect browser cookies.`,
-              `9. Why are traditional dictionary attacks largely ineffective against modern platforms?
-
-Answer: Modern platforms and websites force users to create complex passwords consisting of uppercase letters, lowercase letters, numbers, and symbols that are at least eight characters long and do not correspond to actual dictionary words.`,
-              `10. What is the primary purpose of a password spray attack?
-
-Answer: An attacker attempts a single, highly probable password across many different user accounts sequentially (such as checking Adele, then Bob, then Mary Joe) to eventually secure an account hit without triggering account lockout thresholds on a single username.`,
-            ].join("\n\n"),
-            example:
-              "A trainee distinguishes a worm from a user-executed virus, recognizes a beacon and ARP poisoning, and explains how a password spray differs from brute force.",
           },
         ],
       },
